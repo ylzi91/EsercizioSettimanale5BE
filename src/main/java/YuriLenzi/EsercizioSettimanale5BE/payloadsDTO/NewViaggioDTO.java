@@ -13,6 +13,5 @@ public record NewViaggioDTO(
         @Size(min = 4, max = 30, message = "Minimo 4 caratteri e massimo 30")
         String destinazione,
         @NotEmpty(message = "La data non può essere vuota")
-        LocalDate dataViaggio
-) {
-}
+        String dataViaggio
+) {}
