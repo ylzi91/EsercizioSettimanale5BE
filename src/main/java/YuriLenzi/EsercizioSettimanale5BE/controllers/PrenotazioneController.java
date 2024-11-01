@@ -43,4 +43,9 @@ public class PrenotazioneController {
         return prenotazioneService.savePrenotazione(body, username, idViaggio);
 
     }
+
+    @GetMapping("username/{username}")
+    public List<Prenotazione> filterbyDip(@PathVariable String username){
+        return prenotazioneService.findByDip(username);
+    }
 }

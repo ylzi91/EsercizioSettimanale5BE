@@ -3,12 +3,16 @@ package YuriLenzi.EsercizioSettimanale5BE.entities;
 import YuriLenzi.EsercizioSettimanale5BE.exceptions.InconsistencyDateException;
 import YuriLenzi.EsercizioSettimanale5BE.exceptions.TravelingEmployeeException;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "prenotazioni")
+@Getter
+@Setter
 @NoArgsConstructor
 public class Prenotazione {
     @Id
@@ -22,7 +26,7 @@ public class Prenotazione {
     Viaggio viaggio;
 
     public Prenotazione(LocalDate dataRichiesta, String noteDipendente, Dipendente dipendente, Viaggio viaggio) {
-        checkData(dataRichiesta);
+        checkData(viaggio, dataRichiesta);
         checkInViaggio(viaggio);
         this.dataRichiesta = dataRichiesta;
         this.noteDipendente = noteDipendente;
@@ -30,8 +34,8 @@ public class Prenotazione {
         this.viaggio = viaggio;
     }
 
-    private void checkData(LocalDate data){
-       if(viaggio.getDataViaggio().isBefore(data))
+    private void checkData(Viaggio checkViaggio, LocalDate data){
+       if(checkViaggio.getDataViaggio().isBefore(data))
            throw new InconsistencyDateException();
     }
     private void checkInViaggio(Viaggio viaggio){
