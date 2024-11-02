@@ -17,7 +17,7 @@ import java.util.List;
 public class Dipendente {
     @Id
     private String username;
-    private String nome, cognome, email;
+    private String nome, cognome, email, urlImg;
     @OneToMany(mappedBy = "dipendente", cascade = CascadeType.REMOVE)
     @JsonIgnore
     List<Prenotazione> prenotazioneList;

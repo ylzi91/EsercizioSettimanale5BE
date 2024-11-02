@@ -2,19 +2,28 @@ package YuriLenzi.EsercizioSettimanale5BE.services;
 
 import YuriLenzi.EsercizioSettimanale5BE.entities.Dipendente;
 import YuriLenzi.EsercizioSettimanale5BE.entities.Viaggio;
+import YuriLenzi.EsercizioSettimanale5BE.exceptions.BadRequestException;
 import YuriLenzi.EsercizioSettimanale5BE.exceptions.NotFoundException;
 import YuriLenzi.EsercizioSettimanale5BE.exceptions.SameUsernameorEmailException;
 import YuriLenzi.EsercizioSettimanale5BE.payloadsDTO.NewDipendenteDTO;
+import YuriLenzi.EsercizioSettimanale5BE.payloadsDTO.NewImgDTO;
 import YuriLenzi.EsercizioSettimanale5BE.repositories.DipendenteRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 public class DipendenteService {
     @Autowired
     DipendenteRepository dipendenteRepository;
+
+    @Autowired
+    Cloudinary cloudinaryUploader;
 
     public List<Dipendente> findAll(){
         return dipendenteRepository.findAll();
@@ -41,6 +50,19 @@ public class DipendenteService {
     public void deleteDipendente(String username){
         Dipendente found = findByUsername(username);
         dipendenteRepository.delete(found);
+    }
+
+    public NewImgDTO uploadAvatar(MultipartFile file, String username) {
+        Dipendente found = findByUsername(username);
+        String url = null;
+        try {
+            url = (String) cloudinaryUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        } catch (IOException e) {
+            throw new BadRequestException("Errore nell'upload dell'immagine");
+        }
+        found.setUrlImg(url);
+        dipendenteRepository.save(found);
+        return new NewImgDTO("Ecco l'url dell'immagine", url);
     }
 
 }
