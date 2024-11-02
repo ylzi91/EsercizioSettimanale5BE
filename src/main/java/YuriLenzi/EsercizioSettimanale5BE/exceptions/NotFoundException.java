@@ -6,6 +6,6 @@ public class NotFoundException extends RuntimeException {
     }
 
     public NotFoundException(Long id) {
-        super(id + "Non trovato");
+        super(id + " non trovato");
     }
 }

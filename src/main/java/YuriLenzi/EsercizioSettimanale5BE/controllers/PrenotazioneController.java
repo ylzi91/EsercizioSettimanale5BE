@@ -48,4 +48,10 @@ public class PrenotazioneController {
     public List<Prenotazione> filterbyDip(@PathVariable String username){
         return prenotazioneService.findByDip(username);
     }
+
+    @DeleteMapping("{idPrenotazione}")
+    public void deletePrenotazione(@PathVariable Long idPrenotazione){
+        prenotazioneService.deletePrenotazione(idPrenotazione);
+    }
+
 }

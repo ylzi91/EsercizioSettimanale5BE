@@ -42,5 +42,10 @@ public class DipendenteController {
         return dipendenteService.saveDipendente(body);
     }
 
+    @DeleteMapping("/{username}")
+    public void deleteById(@PathVariable String username){
+        dipendenteService.deleteDipendente(username);
+    }
+
 
 }

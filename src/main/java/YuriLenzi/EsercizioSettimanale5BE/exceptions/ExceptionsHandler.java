@@ -29,6 +29,12 @@ public class ExceptionsHandler {
         return new ErrorResponseDTO("Il formato della data e sbagliato yyyy-mm-dd");
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDTO handleBadRequest(IllegalArgumentException ex){
+        return new ErrorResponseDTO("Lo stato può essere impostato solo con:  IN_PROGRAMMA, IN_CORSO, COMPLETATO");
+    }
+
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponseDTO handleBadRequest(BadRequestException  ex){

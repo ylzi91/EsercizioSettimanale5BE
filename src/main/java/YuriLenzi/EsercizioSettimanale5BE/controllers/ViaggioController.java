@@ -2,6 +2,7 @@ package YuriLenzi.EsercizioSettimanale5BE.controllers;
 
 import YuriLenzi.EsercizioSettimanale5BE.entities.Viaggio;
 import YuriLenzi.EsercizioSettimanale5BE.exceptions.BadRequestException;
+import YuriLenzi.EsercizioSettimanale5BE.payloadsDTO.NewStatoDTO;
 import YuriLenzi.EsercizioSettimanale5BE.payloadsDTO.NewViaggioDTO;
 import YuriLenzi.EsercizioSettimanale5BE.services.ViaggioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,25 @@ public class ViaggioController {
             throw new BadRequestException(message);
         }
         return viaggioService.saveViaggio(body);
+    }
+
+    @PatchMapping("/{idViaggio}")
+    public Viaggio aggiornaStato(@RequestBody @Validated NewStatoDTO body, BindingResult validation, @PathVariable Long idViaggio){
+        if(validation.hasErrors()){
+            String message = validation.
+                    getAllErrors()
+                    .stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.joining(". "));
+            throw new BadRequestException(message);
+        }
+        return viaggioService.cambiaStato(body, idViaggio);
+
+    }
+
+    @DeleteMapping("/{idViaggio}")
+    public void deleteById(@PathVariable Long idViaggio){
+        viaggioService.deleteViaggio(idViaggio);
     }
 
 }

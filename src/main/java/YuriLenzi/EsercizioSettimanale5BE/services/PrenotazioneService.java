@@ -51,4 +51,9 @@ public class PrenotazioneService {
         return newPrenotazione;
 
     }
+
+    public void deletePrenotazione(Long idPrenotazione){
+        Prenotazione found = findById(idPrenotazione);
+        prenotazioneRepository.delete(found);
+    }
 }

@@ -1,6 +1,7 @@
 package YuriLenzi.EsercizioSettimanale5BE.services;
 
 import YuriLenzi.EsercizioSettimanale5BE.entities.Dipendente;
+import YuriLenzi.EsercizioSettimanale5BE.entities.Viaggio;
 import YuriLenzi.EsercizioSettimanale5BE.exceptions.NotFoundException;
 import YuriLenzi.EsercizioSettimanale5BE.exceptions.SameUsernameorEmailException;
 import YuriLenzi.EsercizioSettimanale5BE.payloadsDTO.NewDipendenteDTO;
@@ -35,6 +36,11 @@ public class DipendenteService {
             dipendenteRepository.save(nuovoDipendente);
             return nuovoDipendente;
         }
+    }
+
+    public void deleteDipendente(String username){
+        Dipendente found = findByUsername(username);
+        dipendenteRepository.delete(found);
     }
 
 }
